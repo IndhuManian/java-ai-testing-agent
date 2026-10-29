@@ -1,3 +1,10 @@
 test-output/
-target/
+
 reports/
+
+# Maven build output and test reports
+target/
+
+# IntelliJ project-specific files
+.idea/
+*.iml
