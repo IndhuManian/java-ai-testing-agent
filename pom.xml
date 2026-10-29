@@ -24,25 +24,21 @@
  <version>5.8.0</version>
 </dependency>
 <!-- Source: https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
-   <dependency>
-    <groupId>io.cucumber</groupId>
-    <artifactId>cucumber-java</artifactId>
-    <version>7.34.3</version>
-    <scope>compile</scope>
-     </dependency>
 
-       <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>7.12.0</version>
-        </dependency>
+      <!-- Cucumber Java -->
+      <dependency>
+          <groupId>io.cucumber</groupId>
+          <artifactId>cucumber-java</artifactId>
+          <version>7.34.3</version>
+      </dependency>
 
-    <!-- TestNG -->
-    <dependency>
-    <groupId>io.cucumber</groupId>
-    <artifactId>cucumber-testng</artifactId>
-    <version>7.15.0</version>
-</dependency>
+      <!-- Cucumber TestNG -->
+      <dependency>
+          <groupId>io.cucumber</groupId>
+          <artifactId>cucumber-testng</artifactId>
+          <version>7.34.3</version>
+      </dependency>
+
 
     <dependency>
         <groupId>org.testng</groupId>
@@ -51,7 +47,19 @@
         <scope>test</scope>
     </dependency>
 
-  
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.13.2</version>
+          <scope>test</scope>
+      </dependency>
+
+      <!-- OpenAI Java SDK -->
+      <dependency>
+          <groupId>com.openai</groupId>
+          <artifactId>openai-java</artifactId>
+          <version>4.94.0</version>
+      </dependency>
 
     <!-- Apache Commons IO (Screenshot) -->
     <dependency>
@@ -88,8 +96,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
         <configuration>
-            <source>11</source>
-            <target>11</target>
+            <source>15</source>
+            <target>15</target>
         </configuration>
     </plugin>
 

@@ -1,11 +1,14 @@
 package Hooks;
 
+
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Scenario;
+
+
 
 public class Hooks {
 	
@@ -35,8 +38,12 @@ public class Hooks {
 	    
 	    @After
 	    public void tearDown() {
-	        
-	        if (driver != null) {
+
+
+			// Capture failure details before closing browser
+
+
+			if (driver != null) {
 	            driver.close();
 	        }
 	    }

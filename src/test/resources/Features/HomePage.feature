@@ -15,7 +15,7 @@ Then verify choose your location popup
 When click on the address "Chennai"
 Then Verify the current location and pincode "Chennai 600126"
 
-@homepage @pincode 
+@homepage @pincode @Update
 Scenario: TC03_Verify updating address and pincode 
 Given Launch URL
 When Click on location pincode

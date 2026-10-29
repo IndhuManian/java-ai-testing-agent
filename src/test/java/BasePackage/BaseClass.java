@@ -16,9 +16,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 
 public class BaseClass {
-	
+
 	public static WebDriver driver;
-	
+
 	public void launchBrowser() throws IOException {
     
 		/*The reads the browser from the properties file*/
