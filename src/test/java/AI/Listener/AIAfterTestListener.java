@@ -1,6 +1,7 @@
 
 package AI.Listener;
 
+import AI.Collector.FailureContextAggregator;
 import AI.Collector.FailureReportReader;
 import AI.Client.MockAIClient;
 import AI.Prompts.AIPromptManager;
@@ -18,33 +19,50 @@ public class AIAfterTestListener implements IExecutionListener {
     private static final Path FAILURE_REPORT_DIRECTORY =
             Paths.get("target/ai-failure-reports");
 
-    private void clearPreviousFailureReports() throws IOException {
 
-        if (!Files.isDirectory(FAILURE_REPORT_DIRECTORY)) {
-            return;
-        }
+    private void clearPreviousFailureReports() {
 
-        try (DirectoryStream<Path> reports =
-                     Files.newDirectoryStream(
-                             FAILURE_REPORT_DIRECTORY, "*.txt")) {
+        String[] reportDirectories = {
+                "target/ai-failure-reports",
+                "target/ai-analysis-reports"
+        };
 
-            for (Path report : reports) {
-                Files.deleteIfExists(report);
+        for (String directoryPath : reportDirectories) {
+
+            Path directory = Paths.get(directoryPath);
+
+            if (!Files.exists(directory)) {
+                continue;
+            }
+
+            try (DirectoryStream<Path> files =
+                         Files.newDirectoryStream(directory)) {
+
+                for (Path file : files) {
+                    Files.deleteIfExists(file);
+                }
+
+                System.out.println(
+                        "Previous reports cleared: " + directoryPath);
+
+            } catch (IOException e) {
+
+                System.out.println(
+                        "Unable to clear reports: " + directoryPath);
+
+                e.printStackTrace();
             }
         }
     }
+
     @Override
     public void onExecutionStart() {
 
         System.out.println("AI Test Analysis: Execution started.");
 
-        try {
+
             clearPreviousFailureReports();
-        } catch (IOException e) {
-            System.err.println(
-                    "Could not clear previous failure reports: "
-                            + e.getMessage());
-        }
+
     }
 
     @Override
@@ -53,6 +71,11 @@ public class AIAfterTestListener implements IExecutionListener {
         System.out.println("\n===== STARTING POST-EXECUTION AI ANALYSIS =====");
 
         try {
+            FailureContextAggregator aggregator =
+                    new FailureContextAggregator();
+
+            aggregator.aggregateFailures();
+
             FailureReportReader reader = new FailureReportReader();
 
             String failureDetails = reader.readLatestFailure();

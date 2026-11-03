@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 @CucumberOptions(
         features = "src/test/resources/Features",
         glue = {"StepDefinitions","Hooks"},
-        tags = "@Update",
+        tags = "@homepage",
         plugin = {"pretty",
                 "html:target/cucumber-reports.html",
                 "rerun:target/failed_scenarios.txt",

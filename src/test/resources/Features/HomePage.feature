@@ -7,7 +7,7 @@ When Get the title value
 Then validate the title of the homepage
 |Online Shopping site in India: Shop Online for Mobiles, Books, Watches, Shoes and More - Amazon.in|
 
-@homepage @pincode @failRetry
+@homepage @pincode @failRetry @SampleFail
 Scenario: TC02_Verify update pincode with already login user
 Given Launch URL
 When Click on location pincode
