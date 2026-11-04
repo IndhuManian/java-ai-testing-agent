@@ -21,7 +21,8 @@ import org.testng.annotations.Test;
         plugin = {"pretty",
                 "html:target/cucumber-reports.html",
                 "rerun:target/failed_scenarios.txt",
-                "AI.Collector.FailureCollector"},
+                "AI.Collector.FailureCollector",
+                "AI.Collector.AIAgentExecutionListener"},
         dryRun = false
 )
 

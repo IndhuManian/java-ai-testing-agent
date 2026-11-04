@@ -1,38 +1,42 @@
 package AI.Agent.Decision;
 
-import AI.Agent.Decision.AgentDecision;
-import AI.Agent.Decision.SimulatedAIDecisionMaker;
 import AI.Agent.Tools.ReadAllFailuresTool;
+import AI.Agent.Decision.AgentLoopController;
 import AI.Context.FailureContext;
+
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.List;
 
 public class SimulatedAIDecisionMakerTest {
 
-    public static void main(String[] args) throws IOException {
+    @Test
+    public void testSimulatedAIAgent() throws IOException {
 
+        System.out.println(
+                "\n===== STARTING SIMULATED AI AGENT TEST =====");
+
+        // Step 1: Read structured failure information
         ReadAllFailuresTool readAllFailuresTool =
                 new ReadAllFailuresTool();
 
         List<FailureContext> failures =
                 readAllFailuresTool.execute();
 
-        if (failures.isEmpty()) {
-            System.out.println("No failure reports found.");
+        // Step 2: Validate failure information
+        if (failures == null || failures.isEmpty()) {
+            System.out.println("No failure reports available.");
             return;
         }
 
-        FailureContext failure = failures.get(0);
+        // Step 3: Start the agent workflow
+        AgentLoopController agentLoopController =
+                new AgentLoopController();
 
-        SimulatedAIDecisionMaker decisionMaker =
-                new SimulatedAIDecisionMaker();
+        agentLoopController.run(failures);
 
-        AgentDecision decision = decisionMaker.decide(failure);
-
-        System.out.println("\n===== SIMULATED AI DECISION =====");
-        System.out.println("Scenario: " + decision.getScenarioName());
-        System.out.println("Selected Tool: " + decision.getToolName());
-        System.out.println("Reason: " + decision.getReason());
+        System.out.println(
+                "\n===== SIMULATED AI AGENT TEST COMPLETED =====");
     }
 }
