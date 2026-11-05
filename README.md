@@ -1,236 +1,545 @@
-AI Test Analysis: Execution started.
-Previous reports cleared: target/ai-failure-reports
-Previous reports cleared: target/ai-analysis-reports
-[main] INFO org.testng.internal.Utils - [TestNG] Running:
-C:\Users\indhu\AppData\Local\JetBrains\IdeaIC2023.1\temp-testng-customsuite.xml
+# Java Selenium AI Automation Framework
 
+A Java-based UI automation framework that combines a traditional
+Selenium automation foundation with AI-agent-oriented failure analysis
+and runtime self-healing locator capabilities.
 
-@homepage @title
-Scenario: TC01_Validate the Title of Amazon homepage # src/test/resources/Features/HomePage.feature:4
-[main] INFO io.github.bonigarcia.wdm.WebDriverManager - Using chromedriver 156.0.8078.80 (resolved driver for Chrome 156)
-[main] INFO io.github.bonigarcia.wdm.WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\indhu\.cache\selenium\chromedriver\win64\156.0.8078.80\chromedriver.exe
-Nov 04, 2026 10:23:13 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 156
-Nov 04, 2026 10:23:13 PM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
-WARNING: Unable to find version of CDP to use for 156.0.8078.80. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-✔ Given Launch URL                                 # StepDefinitions.StepDefinitions.launch_url()
+The project is being developed incrementally on top of an existing
+**Selenium + Cucumber BDD + TestNG + Page Object Model (POM)**
+framework. The goal is to evolve an established automation framework
+into an agent-assisted testing framework without replacing its working
+foundation.
 
-        Embedding TC01_Validate the Title of Amazon homepage [image/png 6642 bytes]
+> **Project status:** The failure collection and structured-context
+> foundation, Java agent tools, simulated decision loop, and initial
+> runtime self-healing locator flow have been implemented. Real
+> LLM-based decision-making is a future phase and is not currently
+> required for the demonstrated flows.
 
-✔ When Get the title value                         # StepDefinitions.StepDefinitions.get_the_title_value()
+------------------------------------------------------------------------
 
-        Embedding TC01_Validate the Title of Amazon homepage [image/png 1227744 bytes]
+## Table of Contents
 
-The title of the home page is verified successfully
-✔ Then validate the title of the homepage          # StepDefinitions.StepDefinitions.validate_the_title_of_the_homepage(io.cucumber.datatable.DataTable)
-| Online Shopping site in India: Shop Online for Mobiles, Books, Watches, Shoes and More - Amazon.in |
+-   [Project Objectives](#project-objectives)
+-   [Technology Stack](#technology-stack)
+-   [Existing Automation Foundation](#existing-automation-foundation)
+-   [Framework Architecture](#framework-architecture)
+-   [AI Agent and Failure Analysis](#ai-agent-and-failure-analysis)
+-   [Runtime Self-Healing Locators](#runtime-self-healing-locators)
+-   [Self-Healing Workflow](#self-healing-workflow)
+-   [Amazon.in Demonstration](#amazonin-demonstration)
+-   [Project Structure](#project-structure)
+-   [Execution and Reports](#execution-and-reports)
+-   [Implementation Roadmap](#implementation-roadmap)
+-   [Current Scope and Limitations](#current-scope-and-limitations)
+-   [Future Enhancements](#future-enhancements)
 
-        Embedding TC01_Validate the Title of Amazon homepage [image/png 1381878 bytes]
+------------------------------------------------------------------------
 
+## Project Objectives
 
-@homepage @pincode @failRetry @SampleFail
-Scenario: TC02_Verify update pincode with already login user      # src/test/resources/Features/HomePage.feature:11
-[main] INFO io.github.bonigarcia.wdm.WebDriverManager - Using chromedriver 156.0.8078.80 (resolved driver for Chrome 156)
-[main] INFO io.github.bonigarcia.wdm.WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\indhu\.cache\selenium\chromedriver\win64\156.0.8078.80\chromedriver.exe
-Nov 04, 2026 10:23:18 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 156
-Nov 04, 2026 10:23:18 PM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
-WARNING: Unable to find version of CDP to use for 156.0.8078.80. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-✔ Given Launch URL                                              # StepDefinitions.StepDefinitions.launch_url()
+The project explores how an existing UI automation framework can be
+enhanced with agent-oriented capabilities.
 
-        Embedding TC02_Verify update pincode with already login user [image/png 6642 bytes]
+Key objectives:
 
-✔ When Click on location pincode                                # StepDefinitions.StepDefinitions.click_on_location_pincode()
+-   Collect useful context when an automated test fails.
+-   Represent failure information in a structured format.
+-   Provide Java tools that an agent workflow can invoke to investigate
+    failures.
+-   Simulate a decision loop that selects tools based on the available
+    failure information.
+-   Inspect the live page DOM when a locator cannot be used.
+-   Generate and validate alternative Selenium locators.
+-   Retry supported browser actions using a validated locator.
+-   Keep the QA engineer involved in reviewing recommendations and
+    controlling future automated actions.
 
-        Embedding TC02_Verify update pincode with already login user [image/png 887751 bytes]
+------------------------------------------------------------------------
 
-✔ Then verify choose your location popup                        # StepDefinitions.StepDefinitions.verify_choose_your_location_popup()
+## Technology Stack
 
-        Embedding TC02_Verify update pincode with already login user [image/png 998637 bytes]
+  -----------------------------------------------------------------------
+  Technology                          Purpose
+  ----------------------------------- -----------------------------------
+  Java                                Main programming language
 
-✘ When click on the address "Chennai"                           # StepDefinitions.StepDefinitions.click_on_the_address(java.lang.String)
-org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//input[contains(@aria-label,'Chennai')]"}
-(Session info: chrome=156.0.8078.80)
-For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
-Build info: version: '4.21.0', revision: '79ed462ef4'
-System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '20.0.1'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [38a44bfb9b387a7478f28a30422f0a83, findElement {value=//input[contains(@aria-label,'Chennai')], using=xpath}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 156.0.8078.80, chrome: {chromedriverVersion: 156.0.8078.80 (fb096c0011f9..., userDataDir: C:\Users\indhu\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:55618}, goog:processID: 13296, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:55618/devtoo..., se:cdpVersion: 156.0.8078.80, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:cmtgKey: true, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 38a44bfb9b387a7478f28a30422f0a83
-at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
-at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
-at org.openqa.selenium.remote.ErrorCodec.decode(ErrorCodec.java:167)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:138)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:50)
-at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:190)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
-at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:518)
-at org.openqa.selenium.remote.ElementLocation$ElementFinder$2.findElement(ElementLocation.java:165)
-at org.openqa.selenium.remote.ElementLocation.findElement(ElementLocation.java:59)
-at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:355)
-at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:349)
-at POM.HomePage.clickLocation(HomePage.java:59)
-at StepDefinitions.StepDefinitions.click_on_the_address(StepDefinitions.java:52)
-at ✽.click on the address "Chennai"(file:///C:/Users/indhu/IdeaProjects/cucumber_Selenium_test/src/test/resources/Features/HomePage.feature:15)
+  Maven                               Dependency and build management
 
-        Embedding TC02_Verify update pincode with already login user [image/png 998637 bytes]
+  Selenium WebDriver                  Browser automation
 
-↷ Then Verify the current location and pincode "Chennai 600126" # StepDefinitions.StepDefinitions.verify_the_current_location_and_pincode(java.lang.String)
+  Cucumber BDD                        Feature files and step definitions
 
-org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//input[contains(@aria-label,'Chennai')]"}
-(Session info: chrome=156.0.8078.80)
-For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
-Build info: version: '4.21.0', revision: '79ed462ef4'
-System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '20.0.1'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [38a44bfb9b387a7478f28a30422f0a83, findElement {value=//input[contains(@aria-label,'Chennai')], using=xpath}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 156.0.8078.80, chrome: {chromedriverVersion: 156.0.8078.80 (fb096c0011f9..., userDataDir: C:\Users\indhu\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:55618}, goog:processID: 13296, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:55618/devtoo..., se:cdpVersion: 156.0.8078.80, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:cmtgKey: true, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 38a44bfb9b387a7478f28a30422f0a83
+  TestNG                              Test execution
 
-	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)
-	at org.openqa.selenium.remote.ErrorCodec.decode(ErrorCodec.java:167)
-	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:138)
-	at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:50)
-	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:190)
-	at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:216)
-	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:174)
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:518)
-	at org.openqa.selenium.remote.ElementLocation$ElementFinder$2.findElement(ElementLocation.java:165)
-	at org.openqa.selenium.remote.ElementLocation.findElement(ElementLocation.java:59)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:355)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:349)
-	at POM.HomePage.clickLocation(HomePage.java:59)
-	at StepDefinitions.StepDefinitions.click_on_the_address(StepDefinitions.java:52)
-	at ✽.click on the address "Chennai"(file:///C:/Users/indhu/IdeaProjects/cucumber_Selenium_test/src/test/resources/Features/HomePage.feature:15)
+  Page Object Model                   Page-level organization and
+                                      reusable actions
 
+  Jsoup                               Parsing the captured HTML DOM
 
-@homepage @pincode @Update
-Scenario: TC03_Verify updating address and pincode               # src/test/resources/Features/HomePage.feature:19
-[main] INFO io.github.bonigarcia.wdm.WebDriverManager - Using chromedriver 156.0.8078.80 (resolved driver for Chrome 156)
-[main] INFO io.github.bonigarcia.wdm.WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\indhu\.cache\selenium\chromedriver\win64\156.0.8078.80\chromedriver.exe
-Nov 04, 2026 10:23:53 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 156
-Nov 04, 2026 10:23:53 PM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
-WARNING: Unable to find version of CDP to use for 156.0.8078.80. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.21.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-✔ Given Launch URL                                             # StepDefinitions.StepDefinitions.launch_url()
+  Jackson / JSON utilities            Structured failure-context
+                                      handling, as configured in the
+                                      project
 
-        Embedding TC03_Verify updating address and pincode [image/png 6642 bytes]
+  Extent Reports / Cucumber reports   Test execution reporting
 
-✔ When Click on location pincode                               # StepDefinitions.StepDefinitions.click_on_location_pincode()
+  OpenAI Java SDK                     Dependency added for a possible
+                                      future LLM integration; not
+                                      required for the current simulated
+                                      workflow
+  -----------------------------------------------------------------------
 
-        Embedding TC03_Verify updating address and pincode [image/png 899703 bytes]
+The project has been developed using Java 20 and an IntelliJ IDEA Maven
+environment. Refer to the `pom.xml` in the repository for the exact
+dependency versions.
 
-✔ Then verify choose your location popup                       # StepDefinitions.StepDefinitions.verify_choose_your_location_popup()
+------------------------------------------------------------------------
 
-        Embedding TC03_Verify updating address and pincode [image/png 1034442 bytes]
+## Existing Automation Foundation
 
-✔ When click on enter the pincode and enter "600126"           # StepDefinitions.StepDefinitions.click_on_enter_the_pincode_and_enter(java.lang.String)
+The AI-oriented capabilities are being added to an existing Java
+automation framework rather than replacing it.
 
-        Embedding TC03_Verify updating address and pincode [image/png 1037097 bytes]
+The existing framework uses:
 
-✔ Then Click on Apply button                                   # StepDefinitions.StepDefinitions.Click_on_Apply_button()
+-   Cucumber feature files to describe scenarios.
+-   Step definition classes to connect Gherkin steps to Java methods.
+-   Page classes to hold page locators and browser actions.
+-   A shared browser setup through `BaseClass` and `DriverFactory`.
+-   Hooks for scenario lifecycle handling and screenshot attachment.
+-   Maven and TestNG for execution.
 
-        Embedding TC03_Verify updating address and pincode [image/png 1032543 bytes]
+This structure remains the foundation for the newer agent and
+self-healing components.
 
-✔ And Verify the current location and pincode "Chennai 600126" # StepDefinitions.StepDefinitions.verify_the_current_location_and_pincode(java.lang.String)
+------------------------------------------------------------------------
 
-        Embedding TC03_Verify updating address and pincode [image/png 1032384 bytes]
+## Framework Architecture
 
-Failure Context JSON Generated Successfully!
+The framework has two related areas of functionality.
 
-===== STARTING POST-EXECUTION AI ANALYSIS =====
-Total failures aggregated: 1
-Consolidated report generated: target\ai-failure-reports\all-failures.json
-AI Agent Tool: Reading all failure reports...
-AI Agent Tool: Total failures retrieved: 1
+### 1. Test failure analysis
 
-===== AI AGENT STARTED =====
-Simulated AI: Analysing failure context...
+``` text
+Cucumber / TestNG Test Execution
+              |
+              v
+       Failure Collector
+              |
+              v
+       Failure Context
+              |
+              v
+       JSON Failure Data
+              |
+              v
+       Failure Report Reader
+              |
+              v
+       Simulated Agent Decision Loop
+              |
+              v
+       Java Agent Tools
+              |
+              v
+       QA Analysis Report
+```
 
-===== AGENT EXECUTION STEP 1 =====
+### 2. Runtime self-healing locator flow
 
-AI Agent: Executing selected tool...
-Requested Tool: InspectLocatorTool
-AI Agent Tool: Inspecting locator...
+``` text
+Page Object action
+       |
+       v
+Try original Selenium locator
+       |
+       +---- Locator works ----> Perform action
+       |
+       v
+Original locator cannot be used
+       |
+       v
+Inspect current page DOM
+       |
+       v
+Generate alternative locator candidates
+       |
+       v
+Validate candidate locators
+       |
+       +---- No valid candidate ----> Report failure
+       |
+       v
+Use validated locator
+       |
+       v
+Retry supported browser action
+```
 
-Tool Result:
+The failure-analysis workflow and runtime self-healing workflow are
+complementary, but they are not the same process. The current decision
+loop is simulated, while the initial self-healing locator selection is
+rule-based.
 
-===== LOCATOR DETAILS =====
-Scenario: TC02_Verify update pincode with already login user
-Exception: NoSuchElementException
-Failed Step: click on the address "Chennai"
-Locator Strategy: xpath
-Locator Value: //input[contains(@aria-label,'Chennai')]
+------------------------------------------------------------------------
 
-AI Agent: Evaluating tool execution result...
+## AI Agent and Failure Analysis
 
-Agent Feedback:
-Locator information retrieved successfully. Locator investigation can proceed.
+The failure-analysis foundation collects information from failed test
+scenarios and makes it available to Java-based investigation tools.
 
-Simulated AI: Evaluating previous tool feedback...
+### Structured failure context
 
-AI Agent: No further tool execution required.
+The framework captures information such as:
 
-========== AI AGENT QA ANALYSIS REPORT ==========
+-   Scenario name
+-   Exception type
+-   Error message
+-   Stack trace
+-   Relevant test or scenario details
 
-1. FAILURE SUMMARY
-   Scenario: TC02_Verify update pincode with already login user
-   Exception: NoSuchElementException
-   Failed Step: click on the address "Chennai"
+The collected information is represented as structured JSON and can be
+read back into Java objects for further processing.
 
-2. INVESTIGATION DETAILS
+### Agent tools
 
-===== LOCATOR DETAILS =====
-Scenario: TC02_Verify update pincode with already login user
-Exception: NoSuchElementException
-Failed Step: click on the address "Chennai"
-Locator Strategy: xpath
-Locator Value: //input[contains(@aria-label,'Chennai')]
+The implemented tool work includes:
 
-3. AGENT OBSERVATION
-   Locator information retrieved successfully. Locator investigation can proceed.
+-   **Failure report reader:** Reads generated failure reports.
+-   **Locator inspection tool:** Extracts locator-related information
+    from a failure.
+-   **Scenario details tool:** Retrieves the complete structured failure
+    details for a scenario.
+-   **DOM inspection tool:** Captures the current webpage DOM for
+    locator analysis.
+-   **Locator candidate generator:** Generates possible Selenium
+    locators from DOM elements.
+-   **Locator validator:** Checks whether a candidate identifies exactly
+    one visible and enabled element.
 
-4. RECOMMENDED ACTION
-   Review the identified locator against the current application DOM.
-   Verify whether the element attributes and page state have changed.
+### Simulated decision loop
 
-5. ANALYSIS STATUS
-   Technical investigation completed.
-   Recommended action requires QA engineer review.
+A simulated decision-maker evaluates the failure context and selects a
+tool to execute. It can evaluate the tool result and decide whether
+additional information is needed.
 
-================================================
+This provides a foundation for understanding the agent tool-calling
+pattern before connecting a real language model.
 
-Final QA report saved at: C:\Users\indhu\IdeaProjects\cucumber_Selenium_test\target\ai-failure-reports\AI-Agent-QA-Analysis-Report.txt
+**Important:** The current simulated decision-maker is not an LLM
+response. The current failure categorization and locator candidate
+generation are rule-based.
 
-===== AI AGENT COMPLETED =====
+------------------------------------------------------------------------
 
-===== POST-EXECUTION AI ANALYSIS COMPLETED =====
+## Runtime Self-Healing Locators
 
-===============================================
-Default Suite
-Total tests run: 3, Passes: 2, Failures: 1, Skips: 0
-===============================================
+The framework now includes an initial runtime self-healing mechanism for
+Selenium locators.
 
+When an original locator cannot be used, the framework can inspect the
+current DOM, generate alternatives, validate them, and retry a supported
+action using a validated locator.
 
-===== STARTING POST-EXECUTION AI ANALYSIS =====
-Total failures aggregated: 1
-Consolidated report generated: target\ai-failure-reports\all-failures.json
-AI analysis report generated: C:\Users\indhu\IdeaProjects\cucumber_Selenium_test\target\ai-analysis-reports\AI_Analysis_1793811237815.txt
+### Main components
 
-===== AI FAILURE ANALYSIS =====
-AI FAILURE ANALYSIS
-Failure Category: Element Identification
-Probable Root Cause: Selenium could not locate the element.
-Debugging Steps: Check the XPath or CSS locator, inspect the DOM, and verify whether the element is inside an iframe.
-Suggested Solution: Validate the locator and use an explicit wait if the element loads dynamically.
-Failure Type: Possible Automation Issue
-Rule-based Confidence: High
+  -----------------------------------------------------------------------
+  Component                           Responsibility
+  ----------------------------------- -----------------------------------
+  `DOMInspector`                      Uses JavaScript to capture the
+                                      current document HTML
 
-Note: This is rule-based analysis, not a response generated by an AI model.
+  `LocatorCandidateGenerator`         Parses the DOM with Jsoup and
+                                      generates alternative Selenium `By`
+                                      candidates
 
-Process finished with exit code 0
+  `LocatorValidator`                  Checks candidate uniqueness,
+                                      visibility, and enabled status
+
+  `SelfHealingLocatorTool`            Coordinates DOM inspection,
+                                      candidate generation, and
+                                      validation
+
+  `HealingWebDriverActions`           Provides reusable self-healing
+                                      browser actions
+
+  `HealingResult`                     Holds the original and selected
+                                      locator details, validation state,
+                                      reason, and confidence information
+  -----------------------------------------------------------------------
+
+### Supported browser actions
+
+The current `HealingWebDriverActions` implementation supports:
+
+-   **Click:** Attempts the original locator first; if it cannot be
+    used, it invokes the self-healing flow and retries with the
+    validated locator.
+-   **Type:** Attempts to use the original input locator; if it cannot
+    be used, it invokes the self-healing flow, enters the requested text
+    with the recovered locator, and returns the input element for a
+    subsequent action such as pressing Enter.
+
+### Candidate validation
+
+The current validator checks that a candidate:
+
+1.  Finds exactly one element.
+2.  Identifies an element that is displayed.
+3.  Identifies an element that is enabled.
+
+These checks help reject ambiguous or unusable candidates. They do not,
+by themselves, prove that the candidate represents the intended business
+control. Semantic verification and post-action verification are planned
+improvements.
+
+------------------------------------------------------------------------
+
+## Self-Healing Workflow
+
+The runtime flow is designed as follows:
+
+1.  A Page Object invokes a reusable action through
+    `HealingWebDriverActions`.
+2.  The framework attempts to locate and use the element with the
+    original locator.
+3.  If the original locator cannot be used, the self-healing tool is
+    invoked.
+4.  `DOMInspector` captures the current document HTML.
+5.  `LocatorCandidateGenerator` parses the HTML and creates possible
+    locators.
+6.  `LocatorValidator` checks the candidates.
+7.  If a valid candidate is found, the action is retried using that
+    locator.
+8.  If no candidate passes validation, the framework reports that
+    locator recovery was unsuccessful.
+
+The mechanism does not silently assume that every generated candidate is
+correct. Candidate validation is required before retrying the action.
+
+------------------------------------------------------------------------
+
+## Amazon.in Demonstration
+
+A sample scenario was added to demonstrate runtime locator recovery
+using the Amazon.in search field.
+
+### Scenario objective
+
+Search for a product using an intentionally incorrect locator and allow
+the self-healing flow to identify an alternative locator.
+
+### Example locator details
+
+  Item                                            Value
+  ----------------------------------------------- -------------------------------
+  Intentionally incorrect locator                 `By.id("incorrectSearchBox")`
+  Expected search-field identifier                `twotabsearchtextbox`
+  Element type supplied to candidate generation   `input`
+  Sample search text                              `Laptop`
+
+### Example Gherkin scenario
+
+``` gherkin
+Scenario: Search Amazon using self-healing locator
+    Given Launch URL
+    When Search for Amazon product "Laptop"
+```
+
+### Execution flow
+
+1.  The existing browser launch step opens the configured application
+    URL.
+2.  The Cucumber step passes the product name to the existing `HomePage`
+    object.
+3.  `HomePage.searchAmazonProduct()` calls
+    `HealingWebDriverActions.type()`.
+4.  The intentionally incorrect locator is attempted first.
+5.  The DOM is inspected and alternative candidates are generated.
+6.  The candidate corresponding to the Amazon search input is validated.
+7.  The recovered input receives the search text.
+8.  The search is submitted using the returned `WebElement`.
+
+This sample demonstrates the self-healing type flow. The Amazon page
+markup and availability can change, so the example should be revalidated
+against the live page when it is run.
+
+------------------------------------------------------------------------
+
+## Project Structure
+
+The following is a conceptual view of the main project areas. Exact
+package and file names should be checked against the current repository.
+
+``` text
+src
+├── main
+│   └── java
+│       └── AI
+│           ├── Agent
+│           │   ├── Decision
+│           │   └── Tools
+│           ├── Collector
+│           └── Context
+│
+└── test
+    ├── java
+    │   ├── BasePackage
+    │   ├── Hooks
+    │   ├── POM
+    │   ├── StepDefinitions
+    │   └── TestRunner
+    │
+    └── resources
+        └── Features
+
+target
+├── ai-failure-reports
+├── ai-analysis-reports
+└── cucumber-reports.html
+```
+
+Some projects may place AI classes under `src/test/java` rather than
+`src/main/java`; use the actual source layout in the repository as the
+source of truth.
+
+------------------------------------------------------------------------
+
+## Execution and Reports
+
+The project is a Maven-based Cucumber/TestNG framework.
+
+Typical Maven commands:
+
+``` bash
+mvn clean test-compile
+```
+
+To execute the configured test suite:
+
+``` bash
+mvn test
+```
+
+The actual test selection and execution configuration are controlled by
+the project's TestNG runner and Cucumber options.
+
+Generated output can include:
+
+-   Cucumber HTML report
+-   Scenario screenshots attached by the Cucumber hooks
+-   Structured failure-context JSON
+-   Consolidated failure information
+-   AI-agent QA analysis text reports
+
+Generated files under `target/` are build outputs and may be cleared by
+a clean build or by the framework's report-cleanup logic.
+
+------------------------------------------------------------------------
+
+## Implementation Roadmap
+
+  -----------------------------------------------------------------------
+  Stage                   Description             Status
+  ----------------------- ----------------------- -----------------------
+  1                       Failure analysis        Completed
+                          foundation: collect     
+                          execution failures and  
+                          generate reports        
+
+  2                       Structured failure      Completed
+                          context: capture        
+                          scenario, exception,    
+                          message, and stack      
+                          trace in JSON           
+
+  3                       Agent tools: read       Completed
+                          reports, inspect        
+                          locators, and retrieve  
+                          scenario details        
+
+  4                       Simulated agent         Completed
+                          decision loop: select   
+                          and execute tools based 
+                          on failure context      
+
+  5                       Real LLM integration    Future phase
+                          and model-driven tool   
+                          calling                 
+
+  6                       Controlled actions,     Planned
+                          reruns, result          
+                          comparison, and         
+                          approval before         
+                          consequential changes   
+
+  7                       Expand to API testing   Future phase
+                          and additional QA       
+                          workflows               
+
+  ---                     Runtime self-healing    Initial implementation
+                          locator: DOM            completed
+                          inspection, candidate   
+                          generation, validation, 
+                          click and type          
+  -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## Current Scope and Limitations
+
+This is an evolving learning and engineering project. The following
+limitations are known and should be considered when interpreting the
+current behavior:
+
+-   The simulated agent decision loop does not yet use a live LLM.
+-   Locator candidate generation is rule-based and depends on the
+    attributes present in the captured DOM.
+-   The DOM inspector currently captures the current document HTML;
+    iframe and shadow DOM handling are not yet covered by the described
+    implementation.
+-   Candidate validation checks uniqueness, visibility, and enabled
+    state, but does not establish semantic equivalence with the original
+    control.
+-   A successful click or typing operation does not automatically prove
+    that the intended application state change occurred.
+-   Dynamic pages may render different markup across sessions, regions,
+    or page states.
+-   The Amazon.in example depends on the live page retaining a
+    compatible search input.
+-   Self-healing should not be treated as a substitute for meaningful
+    assertions, test design, or QA review.
+
+------------------------------------------------------------------------
+
+## Future Enhancements
+
+Potential next steps include:
+
+-   Add post-action verification to confirm that the intended UI
+    behavior occurred.
+-   Improve candidate ranking using element context and semantic
+    attributes.
+-   Add safer handling for transient interaction errors, stale elements,
+    and intercepted clicks.
+-   Add iframe and shadow DOM support where required.
+-   Record healing history and expose it in test reports.
+-   Add approval-controlled scenario reruns and result comparisons.
+-   Integrate a real LLM for model-driven tool selection and reasoning
+    when ready.
+-   Extend the agent tools to API testing and broader QA workflows.
+
+------------------------------------------------------------------------
+
+## Project Philosophy
+
+The objective is not to replace traditional automation, but to build on
+it.
+
+A reliable automation foundation remains essential. Agent-oriented
+capabilities can add structured investigation, tool-based reasoning, and
+controlled recovery around that foundation.
+
+This repository documents the incremental development of those
+capabilities, from traditional Selenium automation toward an AI-assisted
+testing framework.

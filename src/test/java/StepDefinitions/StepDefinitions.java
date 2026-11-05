@@ -66,5 +66,9 @@ public class StepDefinitions extends BaseClass {
 		test1.clickApply();
 	}
 
+	@When("Search for Amazon product {string}")
+	public void searchForAmazonProduct(String product) {
+		test1.searchAmazonProduct(product);
+	}
 
 }
